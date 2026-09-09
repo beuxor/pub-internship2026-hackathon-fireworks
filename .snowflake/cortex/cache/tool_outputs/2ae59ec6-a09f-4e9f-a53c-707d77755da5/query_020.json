@@ -1,0 +1,12 @@
+{
+"metadata": {"query":"\nUSE WAREHOUSE team_f_wh;\nSELECT QUESTION_TYPE, COUNT(*) AS cnt,\n       MIN(ANSWER_PCT) AS min_pct, MAX(ANSWER_PCT) AS max_pct, ROUND(AVG(ANSWER_PCT),1) AS avg_pct\nFROM team_f_db.development.question_pool\nGROUP BY QUESTION_TYPE ORDER BY cnt DESC\n","timestamp":"2026-09-09T03:05:44.436Z","columns":["QUESTION_TYPE","CNT","MIN_PCT","MAX_PCT","AVG_PCT"],"truncated":false,"rowCount":6,"toolUseId":"toolu_bdrk_01UP4uE38mrWuSTqX6aPa891"},
+"columns": ["QUESTION_TYPE","CNT","MIN_PCT","MAX_PCT","AVG_PCT"],
+"rows": [
+["OCCUPATION_CATEGORY","213","5.00","24.20","8.1"],
+["AGE_COMPOSITION","155","5.00","59.64","23.7"],
+["ATTRIBUTE_CATEGORY","114","5.00","18.99","8.5"],
+["GENDER_COMPOSITION","76","12.33","81.25","46.2"],
+["REGION_CATEGORY","59","5.09","13.25","8.3"],
+["PRIME_MEMBER","38","19.42","56.06","41.2"]
+]
+}

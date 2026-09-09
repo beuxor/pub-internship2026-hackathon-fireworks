@@ -1,0 +1,7 @@
+{
+"metadata": {"query":"\nUSE WAREHOUSE team_f_wh;\nCREATE TABLE IF NOT EXISTS team_f_db.development.leaderboard (\n  LEADERBOARD_ID    NUMBER AUTOINCREMENT PRIMARY KEY,\n  PLAYER_NAME       VARCHAR(20),\n  MODE              VARCHAR(10),\n  SCORE             NUMBER,\n  QUESTIONS_CLEARED NUMBER,\n  CREATED_AT        TIMESTAMP_NTZ DEFAULT CURRENT_TIMESTAMP()\n)\n","timestamp":"2026-09-09T03:05:09.613Z","columns":["status"],"truncated":false,"rowCount":1,"toolUseId":"toolu_bdrk_015zGPXBwd2pMHeCX1D7BrXV"},
+"columns": ["status"],
+"rows": [
+["Table LEADERBOARD successfully created."]
+]
+}

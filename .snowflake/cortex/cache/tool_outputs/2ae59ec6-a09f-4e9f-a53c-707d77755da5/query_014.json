@@ -1,0 +1,13 @@
+{
+"metadata": {"query":"\nUSE WAREHOUSE team_f_wh;\nWITH\n-- 型1: 年代性別×カテゴリL1\ntype1 AS (\n  SELECT '属性×カテゴリ' AS qtype, ROUND(100.0*COUNT(*)/(SUM(COUNT(*)) OVER (PARTITION BY t.AGE_CATEGORY, t.GENDER_NAME)),2) AS pct,\n         SUM(COUNT(*)) OVER (PARTITION BY t.AGE_CATEGORY, t.GENDER_NAME) AS denom\n  FROM team_f_db.development.rakuten_purchase_mart_v2 t\n  WHERE AGE_CATEGORY IS NOT NULL AND GENDER_NAME IS NOT NULL AND CATEGORY_LEVEL_1 IS NOT NULL\n  GROUP BY AGE_CATEGORY, GENDER_NAME, CATEGORY_LEVEL_1\n),\n-- 型2: 性別構成\ntype2 AS (\n  SELECT '性別構成' AS qtype,\n         ROUND(100.0*SUM(CASE WHEN GENDER_NAME='男性' THEN 1 ELSE 0 END)/COUNT(*),2) AS pct,\n         COUNT(*) AS denom\n  FROM team_f_db.development.rakuten_purchase_mart_v2\n  WHERE CATEGORY_LEVEL_1 IS NOT NULL AND GENDER_NAME IS NOT NULL\n  GROUP BY CATEGORY_LEVEL_1\n),\n-- 型3: 年代構成\ntype3 AS (\n  SELECT '年代構成' AS qtype,\n         ROUND(100.0*COUNT(*)/(SUM(COUNT(*)) OVER (PARTITION BY CATEGORY_LEVEL_1)),2) AS pct,\n         SUM(COUNT(*)) OVER (PARTITION BY CATEGORY_LEVEL_1) AS denom\n  FROM team_f_db.development.rakuten_purchase_mart_v2\n  WHERE CATEGORY_LEVEL_1 IS NOT NULL AND AGE_CATEGORY IS NOT NULL\n  GROUP BY CATEGORY_LEVEL_1, AGE_CATEGORY\n),\nall_q AS (\n  SELECT * FROM type1 WHERE denom >= 1000 AND pct BETWEEN 5 AND 95\n  UNION ALL SELECT * FROM type2 WHERE denom >= 1000 AND pct BETWEEN 5 AND 95\n  UNION ALL SELECT * FROM type3 WHERE denom >= 1000 AND pct BETWEEN 5 AND 95\n),\nbucketed AS (\n  SELECT CASE\n    WHEN pct < 10 THEN '05-09'\n    WHEN pct < 20 THEN '10-19'\n    WHEN pct < 30 THEN '20-29'\n    WHEN pct < 40 THEN '30-39'\n    WHEN pct < 50 THEN '40-49'\n    WHEN pct < 60 THEN '50-59'\n    WHEN pct < 70 THEN '60-69'\n    WHEN pct < 80 THEN '70-79'\n    WHEN pct < 90 THEN '80-89'\n    ELSE '90-95'\n  END AS pct_range, COUNT(*) AS cnt\n  FROM all_q GROUP BY 1\n)\nSELECT * FROM bucketed ORDER BY pct_range\n","timestamp":"2026-09-09T02:43:55.846Z","columns":["PCT_RANGE","CNT"],"truncated":false,"rowCount":7,"toolUseId":"toolu_bdrk_0172NEWk2eYMFVCZkcai1qF8"},
+"columns": ["PCT_RANGE","CNT"],
+"rows": [
+["05-09","102"],
+["10-19","91"],
+["20-29","49"],
+["30-39","27"],
+["40-49","26"],
+["50-59","9"],
+["60-69","3"]
+]
+}

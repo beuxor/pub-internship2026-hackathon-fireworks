@@ -1,0 +1,7 @@
+{
+"metadata": {"query":"\nUSE WAREHOUSE team_f_wh;\nCREATE TABLE IF NOT EXISTS team_f_db.development.question_pool (\n  QUESTION_ID      NUMBER AUTOINCREMENT PRIMARY KEY,\n  QUESTION_TYPE    VARCHAR(50),\n  QUESTION_TEXT    VARCHAR(500),\n  ANSWER_PCT       NUMBER(5,2),\n  DENOMINATOR_CNT  NUMBER,\n  NUMERATOR_CNT    NUMBER\n)\n","timestamp":"2026-09-09T03:04:56.458Z","columns":["status"],"truncated":false,"rowCount":1,"toolUseId":"toolu_bdrk_01KM7RYgxeyGTZeAUZzbk3qA"},
+"columns": ["status"],
+"rows": [
+["Table QUESTION_POOL successfully created."]
+]
+}

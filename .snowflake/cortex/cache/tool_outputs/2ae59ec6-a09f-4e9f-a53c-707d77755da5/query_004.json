@@ -1,0 +1,8 @@
+{
+"metadata": {"query":"\nSELECT SALE_FLAG, COUNT(*) AS cnt FROM team_f_db.development.rakuten_purchase_mart_v2 GROUP BY SALE_FLAG ORDER BY SALE_FLAG\n","timestamp":"2026-09-09T02:42:53.347Z","columns":["SALE_FLAG","CNT"],"truncated":false,"rowCount":2,"toolUseId":"toolu_bdrk_01DByrQ6RXkLA35FQVajca9T"},
+"columns": ["SALE_FLAG","CNT"],
+"rows": [
+["FALSE","1437022"],
+["TRUE","31410"]
+]
+}

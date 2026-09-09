@@ -1,0 +1,74 @@
+items:
+  - id: msg-898d9d9d
+    sender: system
+    recipient: main
+    content: '{"type":"task_notification","event_kind":"background_agent_event","agent_id":"f4f9c409-dbb9-4331-b0d7-23f60cb2471b","subagent_type":"Explore","status":"completed","result":"Here
+      is the complete picture of the project.\n\n---\n\n## Project Overview:
+      `pub-internship2026-hackathon-fireworks`\n\n### Status: **No application
+      code exists yet.** This is a bare repo with documentation and dev
+      environment setup only.\n\n---\n\n### 1. Directory
+      Structure\n\n```\n/workspaces/pub-internship2026-hackathon-fireworks/\n├──
+      .cortex/                      # Cortex Code settings & hooks\n│   ├──
+      hooks/save_session.sh\n│   └── settings.json\n├──
+      .devcontainer/                # GitHub Codespaces dev container\n│   ├──
+      Dockerfile                # Debian base + uv + Snowflake CLI + Cortex
+      Code\n│   ├── devcontainer.json\n│   └── postCreate.sh            # Loads
+      .env into ~/.bashrc\n├── .snowflake/\n│   ├── config.toml              #
+      Snowflake connection (OAuth to ON44798-DS_5DAYSINTERNSHIP_2026)\n│   └──
+      config.toml.example\n├── asset/                        # Setup screenshots
+      (01.png through 05.png)\n├── docs/\n│   ├── 要件定義.md               #
+      Detailed requirements spec (primary, newer version)\n│   ├──
+      handson.md               # Empty file\n│   ├── troubleshoot.md          #
+      Auth cache deletion tip\n│   ├── オープニング画面.png      # UI mockup: opening
+      screen\n│   └── ひとり用ゲーム画面.png    # UI mockup: solo game screen\n├──
+      .editorconfig\n├── .env.example                  # SNOWFLAKE_ACCOUNT,
+      SNOWFLAKE_USER\n├── .gitignore\n├── .vscode/setting.json\n├──
+      README.md                     # Setup instructions (Japanese)\n├──
+      coco_prompts.md              # Prompt templates for CoCo-assisted
+      development\n└── 要件定義.md                   # Original/draft requirements
+      (shorter version)\n```\n\n**No `src/`, `app/`, `pages/`, `components/`,
+      `package.json`, `tsconfig.json`, `snowflake.yml`, `app.yml`, or any
+      `.ts`/`.tsx`/`.sql` files exist.**\n\n---\n\n### 2. What the App Should Be
+      (from `docs/要件定義.md`)\n\n**\"Percent Balloon\"** — a percentage-guessing
+      game built on Rakuten e-commerce purchase data.\n\n- **Runtime**:
+      Snowflake App Runtime (Next.js / TypeScript)\n- **Data source**:
+      `team_f_db.development.rakuten_purchase_mart_v2` (~1.47M rows)\n- **Core
+      mechanic**: Start with 100 HP, lose `|guess - answer|` per question, 5
+      questions total\n- **Three modes** (in priority order):\n  1. **Solo**
+      (must-have) — single player, leaderboard\n  2. **Local battle** (medium) —
+      2 players share one device, masked input + turn handoff\n  3. **Online
+      battle** (low) — 4-digit room code, 2-second polling, 15s time limit\n-
+      **Question pool**: 200 pre-generated questions from 7 types
+      (attribute×category, gender composition, age composition,
+      occupation×category, region×category, marriage×category, prime member),
+      answer range 5–95%, min 1,000 denominator rows\n- **Tables needed**:
+      `QUESTION_POOL`, `GAME_SESSION`, `GAME_ANSWER`,
+      `LEADERBOARD`\n\n---\n\n### 3. Snowflake Connection\n\nFrom
+      `.snowflake/config.toml`:\n- **Account**:
+      `ON44798-DS_5DAYSINTERNSHIP_2026`\n- **User**: `takuya_shinagawa`\n-
+      **Role**: `INTERNSHIP_MEMBER`\n- **Auth**: OAuth Authorization Code
+      flow\n\n---\n\n### 4. Dev Environment\n\nFrom
+      `.devcontainer/Dockerfile`:\n- Base:
+      `mcr.microsoft.com/devcontainers/base:debian`\n- Tools installed: `uv`
+      (Python toolchain), `snowflake-cli` (snow), `cortex` (Cortex Code)\n- No
+      Node.js, npm, or Next.js installed in the Dockerfile — these would need to
+      be added or installed via `snow app setup`\n\n---\n\n### 5. What Does NOT
+      Exist Yet\n\n- **No `package.json`** — no dependencies, no scripts\n- **No
+      `snowflake.yml` or `app.yml`** — no SAR deployment config\n- **No
+      TypeScript/JavaScript source code** — no pages, components, API routes\n-
+      **No `tsconfig.json`** — no TypeScript config\n- **No SQL files** — no DDL
+      for tables, no question generation queries\n- **No Next.js project
+      scaffolding** at all\n- **No design docs** (`基本設計.md`, `インタフェース仕様.md`,
+      `タスク設計.md` referenced in prompts but not created)\n\n---\n\n### 6.
+      Summary\n\nThis is a **planning-only repo** for a hackathon project. The
+      requirements spec (`docs/要件定義.md`) is thorough and well-structured, with
+      detailed game rules, table schemas, screen flows, and a 2-person
+      development split (A: backend/SQL/API, B: frontend/UI/game logic). The
+      `coco_prompts.md` file contains templated prompts for the next phases
+      (design docs, then implementation). Everything needs to be built from
+      scratch — the Next.js project needs scaffolding, tables need DDL,
+      questions need generating, and all application code needs writing."}'
+    summary: background agent Explore finished
+    session_id: 2ae59ec6-a09f-4e9f-a53c-707d77755da5
+    timestamp: 2026-09-09T03:03:15.826Z
+    read: true

@@ -1,0 +1,7 @@
+{
+"metadata": {"query":"USE WAREHOUSE team_f_wh","timestamp":"2026-09-09T02:42:38.481Z","columns":["status"],"truncated":false,"rowCount":1,"toolUseId":"toolu_bdrk_01HVogvgHESWcVSGzszc5ztg"},
+"columns": ["status"],
+"rows": [
+["Statement executed successfully."]
+]
+}

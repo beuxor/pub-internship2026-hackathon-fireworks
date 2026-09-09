@@ -1,0 +1,7 @@
+{
+"metadata": {"query":"\nUSE WAREHOUSE team_f_wh;\nCREATE TABLE IF NOT EXISTS team_f_db.development.game_answer (\n  ANSWER_ID      NUMBER AUTOINCREMENT PRIMARY KEY,\n  SESSION_ID     VARCHAR(36),\n  PLAYER_NAME    VARCHAR(20),\n  QUESTION_NO    NUMBER,\n  QUESTION_ID    NUMBER,\n  ANSWER_PCT     NUMBER(5,2),\n  ERROR_ABS      NUMBER(5,2),\n  DAMAGE         NUMBER,\n  REMAINING_HP   NUMBER,\n  CREATED_AT     TIMESTAMP_NTZ DEFAULT CURRENT_TIMESTAMP()\n)\n","timestamp":"2026-09-09T03:05:08.720Z","columns":["status"],"truncated":false,"rowCount":1,"toolUseId":"toolu_bdrk_0195wTjXwhFVAYNcmwAMPddL"},
+"columns": ["status"],
+"rows": [
+["Table GAME_ANSWER successfully created."]
+]
+}

@@ -1,0 +1,7 @@
+{
+"metadata": {"query":"\nUSE WAREHOUSE team_f_wh;\nCREATE TABLE IF NOT EXISTS team_f_db.development.game_session (\n  SESSION_ID     VARCHAR(36) PRIMARY KEY,\n  ROOM_CODE      VARCHAR(4),\n  MODE           VARCHAR(10),\n  STATUS         VARCHAR(10) DEFAULT 'WAITING',\n  PLAYER1_NAME   VARCHAR(20),\n  PLAYER2_NAME   VARCHAR(20),\n  QUESTION_IDS   VARCHAR(100),\n  CREATED_AT     TIMESTAMP_NTZ DEFAULT CURRENT_TIMESTAMP(),\n  UPDATED_AT     TIMESTAMP_NTZ DEFAULT CURRENT_TIMESTAMP()\n)\n","timestamp":"2026-09-09T03:05:09.993Z","columns":["status"],"truncated":false,"rowCount":1,"toolUseId":"toolu_bdrk_019eU4q4riV9rLMEjjYjWoZY"},
+"columns": ["status"],
+"rows": [
+["Table GAME_SESSION successfully created."]
+]
+}

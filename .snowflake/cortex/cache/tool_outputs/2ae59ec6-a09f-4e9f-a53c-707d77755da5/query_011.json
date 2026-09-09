@@ -1,0 +1,7 @@
+{
+"metadata": {"query":"\nUSE WAREHOUSE team_f_wh;\nWITH group_totals AS (\n  SELECT OCCUPATION_NAME, COUNT(*) AS group_total\n  FROM team_f_db.development.rakuten_purchase_mart_v2\n  WHERE OCCUPATION_NAME IS NOT NULL AND CATEGORY_LEVEL_1 IS NOT NULL\n  GROUP BY OCCUPATION_NAME\n  HAVING COUNT(*) >= 1000\n),\ncat_counts AS (\n  SELECT t.OCCUPATION_NAME, t.CATEGORY_LEVEL_1,\n         COUNT(*) AS cat_count,\n         g.group_total\n  FROM team_f_db.development.rakuten_purchase_mart_v2 t\n  JOIN group_totals g ON t.OCCUPATION_NAME = g.OCCUPATION_NAME\n  WHERE t.CATEGORY_LEVEL_1 IS NOT NULL\n  GROUP BY t.OCCUPATION_NAME, t.CATEGORY_LEVEL_1, g.group_total\n),\nwith_pct AS (\n  SELECT *, ROUND(100.0 * cat_count / group_total, 2) AS pct FROM cat_counts\n)\nSELECT COUNT(*) AS valid_questions,\n       MIN(pct) AS min_pct, MAX(pct) AS max_pct, ROUND(AVG(pct),2) AS avg_pct\nFROM with_pct WHERE pct BETWEEN 5 AND 95\n","timestamp":"2026-09-09T02:43:33.705Z","columns":["VALID_QUESTIONS","MIN_PCT","MAX_PCT","AVG_PCT"],"truncated":false,"rowCount":1,"toolUseId":"toolu_bdrk_01VsRykQG6VQx3G9gaeHBB6B"},
+"columns": ["VALID_QUESTIONS","MIN_PCT","MAX_PCT","AVG_PCT"],
+"rows": [
+["213","5.00","24.20","8.13"]
+]
+}

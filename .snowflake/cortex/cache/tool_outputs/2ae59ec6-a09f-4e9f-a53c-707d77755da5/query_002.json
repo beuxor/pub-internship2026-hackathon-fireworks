@@ -1,0 +1,7 @@
+{
+"metadata": {"query":"SELECT COUNT(*) AS total_rows FROM team_f_db.development.rakuten_purchase_mart_v2","timestamp":"2026-09-09T02:42:32.486Z","columns":["TOTAL_ROWS"],"truncated":false,"rowCount":1,"toolUseId":"toolu_bdrk_01NZaezvcCmSnvrP9QrKCrja"},
+"columns": ["TOTAL_ROWS"],
+"rows": [
+["1468432"]
+]
+}

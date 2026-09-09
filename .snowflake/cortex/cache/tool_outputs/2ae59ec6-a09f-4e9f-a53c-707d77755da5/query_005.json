@@ -1,0 +1,7 @@
+{
+"metadata": {"query":"\nUSE WAREHOUSE team_f_wh;\nSELECT\n  COUNT(DISTINCT GENDER_NAME) AS genders,\n  COUNT(DISTINCT AGE_CATEGORY) AS age_cats,\n  COUNT(DISTINCT STATE_NAME) AS states,\n  COUNT(DISTINCT REGION) AS regions,\n  COUNT(DISTINCT CATEGORY_LEVEL_1) AS cat_l1,\n  COUNT(DISTINCT CATEGORY_LEVEL_2) AS cat_l2,\n  COUNT(DISTINCT MARRIAGE_STATUS) AS marriage,\n  COUNT(DISTINCT PROFESSION_NAME) AS professions,\n  COUNT(DISTINCT OCCUPATION_NAME) AS occupations\nFROM team_f_db.development.rakuten_purchase_mart_v2\n","timestamp":"2026-09-09T02:43:02.360Z","columns":["GENDERS","AGE_CATS","STATES","REGIONS","CAT_L1","CAT_L2","MARRIAGE","PROFESSIONS","OCCUPATIONS"],"truncated":false,"rowCount":1,"toolUseId":"toolu_bdrk_01VP4ekJoKu1TtnmVayMJxHj"},
+"columns": ["GENDERS","AGE_CATS","STATES","REGIONS","CAT_L1","CAT_L2","MARRIAGE","PROFESSIONS","OCCUPATIONS"],
+"rows": [
+["3","8","48","9","38","449","4","9","31"]
+]
+}

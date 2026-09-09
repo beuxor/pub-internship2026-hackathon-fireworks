@@ -1,0 +1,7 @@
+{
+"metadata": {"query":"\nUSE WAREHOUSE team_f_wh;\nWITH base AS (\n  SELECT CATEGORY_LEVEL_1, AGE_CATEGORY,\n         COUNT(*) AS numer\n  FROM team_f_db.development.rakuten_purchase_mart_v2\n  WHERE CATEGORY_LEVEL_1 IS NOT NULL AND AGE_CATEGORY IS NOT NULL\n  GROUP BY CATEGORY_LEVEL_1, AGE_CATEGORY\n),\ntotals AS (\n  SELECT CATEGORY_LEVEL_1, SUM(numer) AS denom\n  FROM base GROUP BY CATEGORY_LEVEL_1\n  HAVING SUM(numer) >= 1000\n),\nwith_pct AS (\n  SELECT b.CATEGORY_LEVEL_1, b.AGE_CATEGORY, b.numer, t.denom,\n         ROUND(100.0 * b.numer / t.denom, 2) AS pct\n  FROM base b JOIN totals t ON b.CATEGORY_LEVEL_1 = t.CATEGORY_LEVEL_1\n)\nSELECT COUNT(*) AS valid_questions,\n       MIN(pct) AS min_pct, MAX(pct) AS max_pct, ROUND(AVG(pct),2) AS avg_pct,\n       ROUND(PERCENTILE_CONT(0.25) WITHIN GROUP (ORDER BY pct),2) AS p25,\n       ROUND(PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY pct),2) AS p50,\n       ROUND(PERCENTILE_CONT(0.75) WITHIN GROUP (ORDER BY pct),2) AS p75\nFROM with_pct WHERE pct BETWEEN 5 AND 95\n","timestamp":"2026-09-09T02:43:34.143Z","columns":["VALID_QUESTIONS","MIN_PCT","MAX_PCT","AVG_PCT","P25","P50","P75"],"truncated":false,"rowCount":1,"toolUseId":"toolu_bdrk_01LbCdmcm2tcwx43PKcTD1du"},
+"columns": ["VALID_QUESTIONS","MIN_PCT","MAX_PCT","AVG_PCT","P25","P50","P75"],
+"rows": [
+["155","5.00","59.64","23.70","12.68","22.08","30.93"]
+]
+}
