@@ -218,6 +218,7 @@ export function GameContainer() {
           hp={currentPlayer === 1 ? player1.hp : player2.hp}
           isLocalMode={mode === "local"}
           onSubmit={submitAnswer}
+          onBackToTop={resetGame}
         />
       )}
 
@@ -231,6 +232,7 @@ export function GameContainer() {
             setPlayer2(finalPlayer2)
             setPhase("finished")
           }}
+          onBackToTop={resetGame}
         />
       )}
 
@@ -249,6 +251,7 @@ export function GameContainer() {
           questionNo={currentQ + 1}
           totalQuestions={TOTAL_QUESTIONS}
           onNext={nextQuestion}
+          onBackToTop={resetGame}
         />
       )}
 

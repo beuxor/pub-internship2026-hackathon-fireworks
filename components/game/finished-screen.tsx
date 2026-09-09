@@ -60,16 +60,16 @@ export function FinishedScreen({ mode, player1, player2, onPlayAgain, onBackToTo
   }
 
   return (
-    <div className="w-full max-w-lg mx-auto flex flex-col items-center gap-6">
-      <h2 className="text-3xl font-bold">ゲーム終了</h2>
+    <div className="w-full max-w-lg mx-auto flex flex-col items-center gap-8">
+      <h2 className="text-5xl font-black">ゲーム終了</h2>
 
       {isBattle && winner && (
         <div className="text-center">
           {winner === "draw" ? (
-            <p className="text-2xl font-bold text-yellow-500">引き分け</p>
+            <p className="text-4xl font-black text-yellow-500 animate-pulse">引き分け</p>
           ) : (
-            <p className="text-2xl font-bold text-red-500">
-              🎉 {winner === "p1" ? player1.name : player2.name} の勝ち！
+            <p className="text-4xl font-black text-red-500 animate-bounce">
+              {winner === "p1" ? player1.name : player2.name} の勝ち！
             </p>
           )}
         </div>
@@ -94,23 +94,23 @@ export function FinishedScreen({ mode, player1, player2, onPlayAgain, onBackToTo
         <button
           onClick={saveScore}
           disabled={saving}
-          className="w-full max-w-xs bg-green-500 text-white rounded-lg px-8 py-3 text-lg font-bold hover:bg-green-600 transition-colors disabled:opacity-50"
+          className="w-full max-w-xs bg-green-500 text-white rounded-xl px-8 py-4 text-xl font-black hover:bg-green-600 transition-all hover:scale-105 active:scale-95 disabled:opacity-50 shadow-lg"
         >
           {saving ? "保存中..." : "スコアを登録"}
         </button>
       )}
-      {saved && <p className="text-green-600 font-bold">スコアを登録しました</p>}
+      {saved && <p className="text-green-600 font-black text-xl">スコアを登録しました</p>}
 
-      <div className="flex gap-3 w-full max-w-xs">
+      <div className="flex gap-4 w-full max-w-xs">
         <button
           onClick={onPlayAgain}
-          className="flex-1 border-2 border-red-500 text-red-500 rounded-lg px-4 py-3 font-bold hover:bg-red-50 transition-colors"
+          className="flex-1 border-3 border-red-500 text-red-500 rounded-xl px-4 py-4 text-xl font-black hover:bg-red-50 transition-all hover:scale-105 active:scale-95"
         >
           もう一度
         </button>
         <button
           onClick={onBackToTop}
-          className="flex-1 border rounded-lg px-4 py-3 text-muted-foreground hover:bg-muted transition-colors"
+          className="flex-1 border-2 rounded-xl px-4 py-4 text-lg text-muted-foreground hover:bg-muted transition-colors"
         >
           トップへ
         </button>
@@ -121,28 +121,28 @@ export function FinishedScreen({ mode, player1, player2, onPlayAgain, onBackToTo
 
 function PlayerResult({ label, player, isWinner }: { label: string; player: PlayerState; isWinner: boolean }) {
   return (
-    <div className={`border-2 rounded-lg p-4 flex-1 ${isWinner ? "border-yellow-400 bg-yellow-50" : "border-border"}`}>
-      <p className="font-bold text-lg mb-3 text-center">{label} {isWinner && "👑"}</p>
-      <div className="text-center mb-3">
-        <p className="text-sm text-muted-foreground">最終スコア</p>
-        <p className="text-4xl font-bold font-mono">{player.hp}</p>
+    <div className={`border-2 rounded-xl p-5 flex-1 transition-all ${isWinner ? "border-yellow-400 bg-yellow-50 shadow-xl shadow-yellow-200" : "border-border"}`}>
+      <p className="font-black text-xl mb-3 text-center">{label} {isWinner && "👑"}</p>
+      <div className="text-center mb-4">
+        <p className="text-sm text-muted-foreground font-bold">最終スコア</p>
+        <p className="text-5xl font-black font-mono">{player.hp}</p>
       </div>
-      <div className="text-sm space-y-1">
+      <div className="text-lg space-y-1">
         <div className="flex justify-between">
           <span>回答数</span>
-          <span className="font-mono">{player.answers.length} / {TOTAL_QUESTIONS}</span>
+          <span className="font-mono font-bold">{player.answers.length} / {TOTAL_QUESTIONS}</span>
         </div>
         <div className="flex justify-between">
           <span>状態</span>
-          <span>{player.isGameOver ? "💥 ゲームオーバー" : "✅ 完走"}</span>
+          <span className="font-bold">{player.isGameOver ? "GAME OVER" : "CLEAR"}</span>
         </div>
       </div>
-      <div className="mt-3 pt-3 border-t space-y-1 text-xs">
+      <div className="mt-3 pt-3 border-t space-y-1 text-sm">
         {player.answers.map((a, i) => (
           <div key={i} className="flex justify-between">
-            <span>第{a.questionNo}問</span>
+            <span className="font-bold">第{a.questionNo}問</span>
             <span className="font-mono">
-              {a.answerPct}% → {a.correctPct}% (−{a.damage})
+              {a.answerPct}% → {Math.round(a.correctPct)}% ({a.damage === 0 ? "PERFECT" : `−${a.damage}`})
             </span>
           </div>
         ))}
