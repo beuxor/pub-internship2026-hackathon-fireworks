@@ -1,18 +1,40 @@
-import { querySnowflake } from "@/lib/snowflake"
-import { DB_SCHEMA } from "@/lib/constants"
+import { readFileSync } from "fs"
+import { join } from "path"
 export const dynamic = "force-dynamic"
+
+interface QuestionRow {
+  QUESTION_ID: number
+  QUESTION_TYPE: string
+  QUESTION_TEXT: string
+  ANSWER_PCT: string | number
+}
+
+let cachedQuestions: QuestionRow[] | null = null
+
+function loadQuestions(): QuestionRow[] {
+  if (cachedQuestions) return cachedQuestions
+  const filePath = join(process.cwd(), "public", "questions.json")
+  const data = readFileSync(filePath, "utf-8")
+  cachedQuestions = JSON.parse(data) as QuestionRow[]
+  return cachedQuestions
+}
+
+function shuffleArray<T>(arr: T[]): T[] {
+  const a = [...arr]
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]]
+  }
+  return a
+}
 
 export async function GET(req: Request) {
   const url = new URL(req.url)
   const count = Number(url.searchParams.get("count") || "5")
   try {
-    const rows = await querySnowflake(
-      `SELECT QUESTION_ID, QUESTION_TYPE, QUESTION_TEXT, ANSWER_PCT
-       FROM ${DB_SCHEMA}.question_pool
-       ORDER BY RANDOM()
-       LIMIT ${count}`
-    )
-    const questions = (rows as Record<string, unknown>[]).map((r) => ({
+    const all = loadQuestions()
+    const selected = shuffleArray(all).slice(0, count)
+    const questions = selected.map((r) => ({
       questionId: Number(r.QUESTION_ID),
       questionType: String(r.QUESTION_TYPE),
       questionText: String(r.QUESTION_TEXT),

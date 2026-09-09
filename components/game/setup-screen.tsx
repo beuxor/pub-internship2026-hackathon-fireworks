@@ -7,24 +7,28 @@ interface SetupScreenProps {
   mode: GameMode
   onStart: (mode: GameMode, p1Name: string, p2Name?: string) => void
   onBack: () => void
+  error?: string
+  loading?: boolean
 }
 
-export function SetupScreen({ mode, onStart, onBack }: SetupScreenProps) {
+export function SetupScreen({ mode, onStart, onBack, error: externalError, loading }: SetupScreenProps) {
   const [p1Name, setP1Name] = useState("")
   const [p2Name, setP2Name] = useState("")
   const [roomCode, setRoomCode] = useState("")
   const [isHost, setIsHost] = useState(true)
-  const [error, setError] = useState("")
+  const [localError, setLocalError] = useState("")
+
+  const error = externalError || localError
 
   const modeLabel = mode === "solo" ? "ひとり用" : mode === "local" ? "ふたり用（ローカル）" : "ふたり用（オンライン）"
 
   const handleStart = () => {
-    if (!p1Name.trim()) { setError("名前を入力してください"); return }
-    if (p1Name.trim().length > 20) { setError("名前は20文字以内で入力してください"); return }
-    if ((mode === "local") && !p2Name.trim()) { setError("プレイヤー2の名前を入力してください"); return }
-    if ((mode === "local") && p1Name.trim() === p2Name.trim()) { setError("同じ名前は使えません"); return }
-    if (mode === "online" && !isHost && !roomCode.trim()) { setError("合言葉を入力してください"); return }
-    setError("")
+    if (!p1Name.trim()) { setLocalError("名前を入力してください"); return }
+    if (p1Name.trim().length > 20) { setLocalError("名前は20文字以内で入力してください"); return }
+    if ((mode === "local") && !p2Name.trim()) { setLocalError("プレイヤー2の名前を入力してください"); return }
+    if ((mode === "local") && p1Name.trim() === p2Name.trim()) { setLocalError("同じ名前は使えません"); return }
+    if (mode === "online" && !isHost && !roomCode.trim()) { setLocalError("合言葉を入力してください"); return }
+    setLocalError("")
     onStart(mode, p1Name.trim(), mode !== "solo" ? p2Name.trim() || undefined : undefined)
   }
 
@@ -97,9 +101,10 @@ export function SetupScreen({ mode, onStart, onBack }: SetupScreenProps) {
 
         <button
           onClick={handleStart}
-          className="w-full bg-red-500 text-white rounded-lg px-8 py-4 text-xl font-bold hover:bg-red-600 transition-colors"
+          disabled={loading}
+          className="w-full bg-red-500 text-white rounded-lg px-8 py-4 text-xl font-bold hover:bg-red-600 transition-colors disabled:opacity-50"
         >
-          {mode === "online" && !isHost ? "入室する" : "ゲーム開始"}
+          {loading ? "読み込み中..." : mode === "online" && !isHost ? "入室する" : "ゲーム開始"}
         </button>
 
         <button

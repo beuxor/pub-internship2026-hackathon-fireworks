@@ -6,3 +6,9 @@ output/
 .env.local
 *.log
 .DS_Store
+.leaderboard.json
+.sessions.json
+.answers.json
+.snowflake/config.toml
+.snowflake/cortex/
+.snowflake/.cli_version.cache

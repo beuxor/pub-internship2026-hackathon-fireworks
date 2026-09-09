@@ -1,6 +1,28 @@
-import { querySnowflake } from "@/lib/snowflake"
-import { DB_SCHEMA, DAMAGE_RATE } from "@/lib/constants"
+import { readFileSync, writeFileSync, existsSync } from "fs"
+import { join } from "path"
+import { DAMAGE_RATE } from "@/lib/constants"
 export const dynamic = "force-dynamic"
+
+interface Answer {
+  sessionId: string
+  playerName: string
+  questionNo: number
+  questionId: number
+  answerPct: number
+  errorAbs: number
+  damage: number
+  remainingHp: number
+}
+
+const ANSWERS_FILE = join(process.cwd(), ".answers.json")
+
+function readAnswers(): Answer[] {
+  if (!existsSync(ANSWERS_FILE)) return []
+  try { return JSON.parse(readFileSync(ANSWERS_FILE, "utf-8")) } catch { return [] }
+}
+function writeAnswers(answers: Answer[]) {
+  writeFileSync(ANSWERS_FILE, JSON.stringify(answers, null, 2))
+}
 
 export async function POST(req: Request) {
   try {
@@ -11,12 +33,9 @@ export async function POST(req: Request) {
     const damage = Math.round(errorAbs * DAMAGE_RATE)
     const remainingHp = Math.max(0, remainingHpBefore - damage)
 
-    await querySnowflake(
-      `INSERT INTO ${DB_SCHEMA}.game_answer
-       (SESSION_ID, PLAYER_NAME, QUESTION_NO, QUESTION_ID, ANSWER_PCT, ERROR_ABS, DAMAGE, REMAINING_HP)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-      { binds: [sessionId, playerName, questionNo, questionId, answerPct, errorAbs, damage, remainingHp] }
-    )
+    const answers = readAnswers()
+    answers.push({ sessionId, playerName, questionNo, questionId, answerPct, errorAbs, damage, remainingHp })
+    writeAnswers(answers)
 
     return Response.json({ errorAbs, damage, remainingHp })
   } catch (e) {

@@ -29,6 +29,8 @@ export function GameContainer() {
   const [lastAnswer, setLastAnswer] = useState<{ p1?: PlayerAnswer; p2?: PlayerAnswer } | null>(null)
   const [onlineSessionId, setOnlineSessionId] = useState("")
   const [onlineRoomCode, setOnlineRoomCode] = useState("")
+  const [error, setError] = useState("")
+  const [loading, setLoading] = useState(false)
 
   const resetGame = useCallback(() => {
     setPhase("top")
@@ -44,22 +46,39 @@ export function GameContainer() {
 
   const startGame = useCallback(async (selectedMode: GameMode, p1Name: string, p2Name?: string) => {
     setMode(selectedMode)
+    setError("")
+    setLoading(true)
     setPlayer1({ name: p1Name, hp: INITIAL_HP, answers: [], isGameOver: false })
     if (p2Name) {
       setPlayer2({ name: p2Name, hp: INITIAL_HP, answers: [], isGameOver: false })
     }
 
     if (selectedMode === "online") {
+      setLoading(false)
       setPhase("waiting")
       return
     }
 
-    const res = await fetch("/api/questions?count=5")
-    const qs = await res.json()
-    setQuestions(qs)
-    setCurrentQ(0)
-    setCurrentPlayer(1)
-    setPhase("playing")
+    try {
+      const res = await fetch("/api/questions?count=5")
+      if (!res.ok) {
+        const errBody = await res.text()
+        throw new Error(errBody || `サーバーエラー (${res.status})`)
+      }
+      const qs = await res.json()
+      if (!Array.isArray(qs) || qs.length === 0) {
+        throw new Error("問題の取得に失敗しました")
+      }
+      setQuestions(qs)
+      setCurrentQ(0)
+      setCurrentPlayer(1)
+      setPhase("playing")
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "問題の取得に失敗しました")
+      setPhase("setup")
+    } finally {
+      setLoading(false)
+    }
   }, [])
 
   const submitAnswer = useCallback((guess: number) => {
@@ -179,7 +198,7 @@ export function GameContainer() {
       )}
 
       {phase === "setup" && (
-        <SetupScreen mode={mode} onStart={startGame} onBack={resetGame} />
+        <SetupScreen mode={mode} onStart={startGame} onBack={resetGame} error={error} loading={loading} />
       )}
 
       {phase === "waiting" && mode === "online" && (
